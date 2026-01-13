@@ -76,10 +76,24 @@ public class Main {
     // }
     int index = inorderIndexMap.get(root);
 
-    rootNode.left = helper2(preorder, inorder, preStart + 1, preStart + index - inStart, inStart, index - 1,
-        inorderIndexMap);
-    rootNode.right = helper2(preorder, inorder, preStart + index + 1 - inStart, preEnd, index + 1, inEnd,
-        inorderIndexMap);
+    rootNode.left = helper2(
+        preorder,
+        inorder,
+        preStart + 1,
+        preStart + index - inStart,
+        inStart,
+        index - 1,
+        inorderIndexMap
+    );
+    rootNode.right = helper2(
+        preorder,
+        inorder,
+        preStart + index + 1 - inStart,
+        preEnd,
+        index + 1,
+        inEnd,
+        inorderIndexMap
+    );
 
     return rootNode;
   }
