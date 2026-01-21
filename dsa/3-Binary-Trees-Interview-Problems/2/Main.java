@@ -10,7 +10,9 @@ import java.util.List;
  * NOTE: The largest subtree is the subtree with the most number of nodes.
  */
 public class Main {
+
   static class TreeNode {
+
     int val;
     TreeNode left, right;
 
@@ -21,6 +23,7 @@ public class Main {
   }
 
   static class Data {
+
     boolean isBST;
     int size;
 
@@ -98,7 +101,6 @@ public class Main {
           curr = curr.right;
         }
       }
-
     }
 
     return inorder;
@@ -113,6 +115,7 @@ public class Main {
   }
 
   public static class TreeData {
+
     boolean isBST;
     int size, min, max;
 
