@@ -7,14 +7,22 @@ public class Main {
     public static void heapify(List<Integer> list) {
         int size = list.size();
 
-        for (int i = 1; i < size; i++) {
-            int parentIdx = (i - 1) / 2;
-            int currIdx = i;
+        for(int i = 1; i < size; i++) {
+            swimUp(list, i);
+        }
+    }
 
-            while (parentIdx >= 0 && list.get(currIdx) < list.get(parentIdx)) {
+    private static void swimUp(List<Integer> list, int index) {
+        int currIdx = index;
+
+        while(currIdx > 0) {
+            int parentIdx = (currIdx - 1) / 2;
+
+            if(list.get(currIdx).compareTo(list.get(parentIdx)) < 0) {
                 swap(list, currIdx, parentIdx);
                 currIdx = parentIdx;
-                parentIdx = (currIdx - 1) / 2;
+            } else {
+                break;
             }
         }
     }
