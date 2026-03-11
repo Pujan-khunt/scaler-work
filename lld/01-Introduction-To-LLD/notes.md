@@ -17,9 +17,9 @@ So basically you would spend very less time in writing the actual code, roughly 
 The majority of the part would be spent around the following:
 | Maintainability | Understandability | Extensibility |
 | :-- | :-- | :-- | 
-| Refactoring | Understanding Codebase | Regression bugs
-| Testing | Code Review | Merge Conflicts
-| Finding and Fixing Bugs | Knowledge Transfer Sessions
+| Refactoring | Understanding Codebase | Regression bugs |
+| Testing | Code Review | Merge Conflicts |
+| Finding and Fixing Bugs | Knowledge Transfer Sessions | |
 
 > Introduction to LLD is all about learning how to write code that is:
 > - **Maintainable**: Changes in the code doesn't take a lot of time.

@@ -92,15 +92,10 @@ class InternEmployee extends Employee {
 // There should only be one instance of this class
 class EmployeeRepo {
     List<Employee> employees;
-    Serializer serializer;
-    FileStorageService fss;
-
-    EmployeeRepo(Serializer serializer, FileStorageService fss) {
-        this.serializer = serializer;
-        this.fss = fss;
-    }
 
     void save(Employee e) {
+        Serializer serializer = new Serializer(/*...*/);
+        FileStorageService fss = new FileStorageService(/*...*/);
         String str = serializer.serialize(e);
         fss.save(str);
     }
