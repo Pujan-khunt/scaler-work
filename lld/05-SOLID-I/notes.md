@@ -418,6 +418,25 @@ class Singleton {
     }
 }
 ```
+**Limitation**: Singleton behavior can be violated via Java Reflection API or via Serialization Attacks.
+
+Proof that serialization attack breaks singletone behavior by getting 2 instances of the singleton class.
+```java
+    Singleton instanceOne = Singleton.getInstance();
+
+    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("singleton.ser"));
+    out.writeObject(instanceOne);
+    out.close();
+
+    ObjectInputStream in = new ObjectInputStream(new FileInputStream("singleton.ser"));
+    // When reading from input stream, JVM doesn't call getInstance or Singleton()
+    // rather it assigns it a fresh block of memory and the data is forced onto it.
+    Singleton instanceTwo = (Singleton) in.readObject();
+    in.close();
+
+    System.out.println("Instance 1 hash: " + instanceOne.hashCode());
+    System.out.println("Instance 2 hash: " + instanceTwo.hashCode());
+```
 
 ### V5 Design (Eager Loading)
 This design ensures that the instance is initialized at class loading phase and 
@@ -437,3 +456,79 @@ class Singleton {
 **Limitation**: The only drawback of this method is memory wastage. Since the object
 is created even before the `getInstance()` method is called, it will consume memory
 even when not needed.
+
+### V6 Design
+Since the Reflection API can make private fields accessible, it can directly access 
+the constructor of the Singleton class. To prevent this we can add a check inside
+the constructor to check if the instance has already been initialized.
+
+```java
+class Singleton {
+    private static final INSTANCE = Singleton();
+
+    private Singleton() {
+        if (INSTANCE != null) {
+            throw new RuntimeException("Use getInstance() method to get the single instance of this class.");
+        }
+    }
+
+    public static Singleton getInstance() {
+        return INSTANCE;
+    }
+}
+```
+
+### V7 Design 
+This design doesn't violate the singleton behavior against a serialization attack.
+
+JVM looks for a certain method (`readResolve`) defined in the class in the deserialization phase. 
+If it does find it, then it will execute it before returning the object to your application.
+
+```java
+class Singleton implements Serializable {
+    private static final Singleton INSTANCE = new Singleton();
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        return INSTANCE;
+    }
+
+    // This method is called internally by the JVM during deserialization
+    protected Object readResolve() {
+        // Discard the newly deserialized duplicate and return the true Singleton
+        return INSTANCE;
+    }
+}
+```
+
+**Limitation**: Java Reflection API can break anything and everything (except Enums)
+
+### V8 Design (Best as of now)
+Since Java treats Enums differently than standard classes, the Reflection API
+cannot work with enums, it will throw an exception if done so.
+Also JVM internally handles the serialization protection logic as well.
+
+```java
+public enum EnumSingleton {
+    // This is the single instance. It is globally accessible and thread-safe.
+    INSTANCE;
+
+    private int connectionCount = 0;
+
+    public void doSomething() {
+        System.out.println("Doing something...");
+    }
+    
+    public int getConnectionCount() {
+        return connectionCount;
+    }
+}
+
+public class Main {
+    public static void main() {
+        // Client side usage
+        EnumSingleton.INSTANCE.doSomething();
+    }
+}
+```
