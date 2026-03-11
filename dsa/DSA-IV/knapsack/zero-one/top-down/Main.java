@@ -1,6 +1,6 @@
 public class Main {
 
-    public int 
+    // public int 
 
     public static void main(String[] args) {
         

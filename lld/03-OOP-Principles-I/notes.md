@@ -1,4 +1,4 @@
-# Object Oriented Programming Principles I
+# Object Oriented Programming Principles I (Class 3)
 
 ## Design A Bird (SDE II Question Asked in Amazon)
 
@@ -126,34 +126,41 @@ for (Bird bird : flock) {
 }
 ```
 > You should never force the client to manage the business logic of YOUR objects.
+> This would also lead to breakage of abstraction, since the client now needs to know whether a bird can fly or not.
 
 ### Better V3 Design
 The better approach is to use _Interfaces_ to define behavior of the `Bird` class instead of defining them in the base class.
 
-A good question to think is why do need to use interface to define the behavior, why can't we use a separate class to define the behavior and then extend it?
+A good question to think is why do we need to use an interface to define the behavior, why can't we use a separate class to define the behavior and then extend it?
 
-The answer is that java doesn't allow multiple inheritance and avoids the diamond problem of inheritance.
+The answer is that java doesn't allow multiple inheritance and avoids the [diamond problem](https://en.wikipedia.org/wiki/Multiple_inheritance#The_diamond_problem).
 
-> Thumb Rule in Inheritance: If you need to use more than 1 level of inheritance, its a bad design.
+> Thumb Rule of Inheritance: If you need to use more than 1 level of inheritance, it is a bad design.
 
 ```java
+// Flyable interface defines the flying behavior
 interface Flyable {
     void fly();
 }
 
+// Walkable interface defines the walking behavior
 interface Walkable {
     void walk();
 }
 
+// Eatable interface defines the eating behavior
 interface Eatable {
     void eat();
 }
 
+// abstract class Bird represents an abstract bird 
+// with common properties between all birds
 abstract class Bird {
     String name, type, color;
     double weight, height;
 }
 
+// Penguin class represents a penguin which is a bird and supports walking and eating.
 class Penguin extends Bird implements Walkable, Eatable {
     // ... penguin specific attributes ...
 
@@ -168,6 +175,7 @@ class Penguin extends Bird implements Walkable, Eatable {
     // ... penguin specific methods ...
 }
 
+// Eagle class represents an eagle which is a bird and supports flying, walking and eating.
 class Eagle extends Bird implements Flyable, Walkable, Eatable {
     // ... eagle specific attributes ...
     

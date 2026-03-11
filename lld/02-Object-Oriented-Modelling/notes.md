@@ -24,9 +24,9 @@ Student s = new Student();
 
 Here the `Student()` is a call to a function, a special type of a function which is known as the _constructor_ of a class.
 
-`new Student()` allocates memory in RAM (or more specifically the _Heap_ memory of the process). You need a way to manipulate that memory when needed, hence you need the address where it is located.
+`new Student()` allocates memory in RAM (or more specifically the _heap memory_ of the process). You need a way to manipulate that memory when needed, hence you need the address where it is located.
 
-That address is stored in the variable `s` which is a reference that lives in _stack_ memory of the process.
+That address is stored in the variable `s` which is called a _reference_ that lives in the _stack memory_ of the process.
 
 You can also just create a reference without it pointing to any value in the RAM.
 `s2 = s` will make the reference `s2` point to the location where `s1` is pointing.
@@ -117,7 +117,7 @@ Also if there is a bug detected from this function, then you would have to test 
 
 > This design breaks the Single Responsibility Principle, since one function contains multiple behaviors and hence there are multiple reasons to change this code. For example to change the format of SST students you will have to change this function and for updating the format of SSB students you will also have to change this same function.
 
-## What Is A Good Solution For This Problem?
+## What Is A Better Solution For This Problem?
 
 Answer: **Inheritance**.
 
@@ -156,14 +156,14 @@ If we want to add a new type of student, you don't need to make changes in code 
 ## Why Should `Student` be Abstract?
 Based on our requirements we know that a student can only belong to "SSB" or "SST", so having implementations of methods which are common in both inside the `Student` class doesn't make any sense, since they will never be used. Also if a student can never be of the generic type `Student` then you shouldn't be allowed to create an instance of the `Student` class. Hence for both of these reasons we should make the `Student` class abstract.
 
-> NOTE: Always understand the requirement to make this kind of a change, since our requirement didn't allow for a generic `Student` we can make that class abstract.
+> NOTE: Always understand the requirement to make this kind of a change, since our requirement didn't allow for a generic `Student`, we can make that class abstract.
 
 ## The Problem With Inheritance Pattern
 Imagine a scenario where we have an abstract class `Student` and 4 class which extend it, namely `SSTStudent`, `SSBStudent`, `OnlineCSStudent` and `OnlineDSMLStudent`. Now there must be some properties that are common between some types of these students but not all.
 Example:
 - `getCGR()` has same implementations in `OnlineCSStudent` and `OnlineDSMLStudent`
 
-We are repeating the same method in both of the classes.
+We are repeating the same method in both of the classes. Not a good design.
 
 ### How Can We Solve This Problem?
 Using a design pattern.
