@@ -2,12 +2,12 @@
  *
  * Fractional KnapSack:
  *
- * You have N elements where each element has a weight and a value associated to it.
- * You also have a bag of capacity C.
- * The goal is to maximize/minimize the value in the bag while keeping the total
+ * You have N elements where each element has a weight and a value associated to it. You also have a
+ * bag of capacity C. The goal is to maximize/minimize the value in the bag while keeping the total
  * weight of the bag <= its capacity C.
  *
- * The thing which makes it 'fractional' is that the element/item can be divided into per unit weight.
+ * The thing which makes it 'fractional' is that the element/item can be divided into per unit
+ * weight.
  *
  * Que: You go to a cake shop with a bag of weight capacity C. You can choose from upto N cakes.
  * Each cake has a weight 'w' and a happiness value 'h' associated to it. Find the maximum happiness
@@ -15,10 +15,7 @@
  *
  * NOTE: The cakes can be divided into per unit weight.
  *
- * TC:
- * H = [3, 8, 10, 2, 5]
- * W = [10, 4, 20, 8, 15]
- * H/w = 0.3, 2, 0.5, 0.25, 0.33
+ * TC: H = [3, 8, 10, 2, 5] W = [10, 4, 20, 8, 15] H/w = 0.3, 2, 0.5, 0.25, 0.33
  *
  */
 
@@ -28,11 +25,7 @@ import java.util.List;
 
 public class Main {
 
-    public double knapSack(
-        List<Integer> weight,
-        List<Integer> happiness,
-        int capacity
-    ) {
+    public double knapSack(List<Integer> weight, List<Integer> happiness, int capacity) {
         List<List<Integer>> cakes = new ArrayList<>();
         int n = weight.size();
         for (int i = 0; i < n; i++) {
@@ -48,12 +41,11 @@ public class Main {
             return Double.compare(t2, t1);
         });
 
-        int bag = 0,
-            i = 0;
+        int bag = 0, i = 0;
         double happy = 0;
 
         // If the bag can handle the full cake
-        while (bag + cakes.get(i).get(0) <= capacity) {
+        while (i < n && bag + cakes.get(i).get(0) <= capacity) {
             // Then consume the entire cake.
             bag += cakes.get(i).get(0);
             happy += cakes.get(i).get(1);
@@ -61,11 +53,10 @@ public class Main {
             // Move onto the next cake.
             i++;
         }
-        // If all the cakes have not yet been consumed and we still have non-zero capacity left to fill the bag, only then add the fractional cake.
+        // If all the cakes have not yet been consumed and we still have non-zero capacity left to
+        // fill the bag, only then add the fractional cake.
         if (i < n && bag < capacity) {
-            happy +=
-                (capacity - bag) *
-                ((double) cakes.get(i).get(1) / cakes.get(i).get(0));
+            happy += (capacity - bag) * ((double) cakes.get(i).get(1) / cakes.get(i).get(0));
         }
         return happy;
     }
